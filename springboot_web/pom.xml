@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.yang.springboot</groupId>
+    <artifactId>springboot_parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>springboot_web</artifactId>
+  <dependencies>
+  	 <!-- 引入自己定义的api通用包，可以使用Dept部门Entity -->
+   <dependency>
+     <groupId>com.yang.springboot</groupId>
+     <artifactId>springboot_service</artifactId>
+     <version>${project.version}</version>
+   </dependency>
+   <dependency>
+     <groupId>org.projectlombok</groupId>
+     <artifactId>lombok</artifactId>
+   </dependency>
+    <dependency>
+     <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>ch.qos.logback</groupId>
+     <artifactId>logback-core</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-jetty</artifactId>
+   </dependency>
+<!--    <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-web</artifactId>
+   </dependency> -->
+    <dependency>
+     <groupId>mysql</groupId>
+     <artifactId>mysql-connector-java</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>com.alibaba</groupId>
+     <artifactId>druid</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-test</artifactId>
+   </dependency>
+   <!-- 修改后立即生效，热部署 -->
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>springloaded</artifactId>
+   </dependency>
+   <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-devtools</artifactId>
+   </dependency>
+   <dependency>
+		<groupId>org.yaml</groupId>
+		<artifactId>snakeyaml</artifactId>
+		<version>${snakeyaml.version}</version>
+	</dependency>
+  </dependencies>
+  
+  <profiles>
+        <profile>
+            <id>prod</id>
+            <build>
+            	<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<includes>
+            				<include>**/*.properties</include>
+            			</includes>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+            </build>
+            <properties>
+            	<env>prod</env>
+                <spring.profiles.active>prod</spring.profiles.active>
+                <environment>RELEASE</environment>
+                <configone>this_is_prod_configone</configone>
+                <configtwo>this_is_prod_configtwo</configtwo>
+                <configthree>this_is_prod_configthree</configthree>
+                
+            <!--     <log.root.level>INFO</log.root.level>
+	            <log.logger.level>DEBUG</log.logger.level>
+	            <log.console.level>INFO</log.console.level> 
+ -->
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+            	<env>test</env>
+                <spring.profiles.active>test</spring.profiles.active>
+                <environment>TEST</environment>
+               <!--  <spring.datasource.url>jdbc:mysql://172.20.10.72:3306/xtest</spring.datasource.url>
+                <configone>this_is_test_configone</configone>
+                <configtwo>this_is_test_configtwo</configtwo>
+                <configthree>this_is_test_configthree</configthree>
+                <configthreetest>configthreetest</configthreetest> -->
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+            	<env>dev</env>
+                <spring.profiles.active>dev</spring.profiles.active>
+                <environment>DEV</environment>
+                <configone>this_is_dev_configone</configone>
+                <configtwo>this_is_dev_configtwo</configtwo>
+                <configthree>this_is_dev_configthree</configthree>
+                <datasource.url>jdbc:mysql://172.20.10.72:3306/xtest</datasource.url>
+            </properties>
+        </profile>
+    </profiles>
+    <build>
+    	<finalName>${artifactId}-${version}-${environment}</finalName>
+		<filters>
+	        <filter>src/main/filter/${env}.properties</filter>
+	    </filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+		  <plugin>
+             <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <version>2.0.1.RELEASE</version>
+             <configuration>
+              	<encoding>utf-8</encoding>
+              	<useDefaultDelimiters>true</useDefaultDelimiters>
+              <!-- 	<resources>
+				    <resource>
+				     <directory>src/main/resources/</directory>
+				     <filtering>true</filtering>
+				    </resource>
+				 </resources> -->
+                 <source>1.8</source>
+                 <target>1.8</target>
+             </configuration>
+          </plugin>
+		</plugins>
+		
+    </build>
+    
+  
+  
+</project>

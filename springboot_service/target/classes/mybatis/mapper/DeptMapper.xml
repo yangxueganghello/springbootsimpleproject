@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="springboot.yang.springboot.mapper.DeptMapper">
+ 
+  <select id="findById" resultType="springboot.yang.springboot.entities.Dept" parameterType="Long">
+   select deptno,dname,db_source from dept where deptno=#{deptno}; 
+  </select>
+  <select id="findAll" resultType="springboot.yang.springboot.entities.Dept">
+   select deptno,dname,db_source from dept; 
+  </select>
+  <insert id="addDept" parameterType="springboot.yang.springboot.entities.Dept">
+   INSERT INTO dept(dname,db_source) VALUES(#{dname},DATABASE());
+  </insert>
+   <select id="fetDeptList" resultType="springboot.yang.springboot.entities.Dept" parameterType="springboot.yang.springboot.entities.Dept">
+   select deptno,dname,db_source from dept where dname=#{dname}; 
+  </select>
+  
+</mapper>
+ 
+
